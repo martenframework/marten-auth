@@ -1,0 +1,21 @@
+name: marten_auth
+version: 0.1.0.dev0
+
+authors:
+  - Morgan Aubert <me@morganaubert.name>
+
+description: |
+  An authentication system for the Marten web framework.
+
+crystal: ">= 1.6.0"
+
+dependencies:
+  marten:
+    github: martenframework/marten
+    branch: main
+
+development_dependencies:
+  ameba:
+    github: crystal-ameba/ameba
+
+license: MIT
