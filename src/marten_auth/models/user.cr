@@ -1,6 +1,18 @@
 require "./base_user"
 
 module MartenAuth
+  # Main abstract user model.
+  #
+  # This method defines a common abstract user model with the following fields:
+  #
+  # * `id` (big int)
+  # * `email` (email)
+  # * `password` (string)
+  # * `created_at` (date time)
+  # * `updated_at` (date time)
+  #
+  # This abstract user model is intended to be subclassed in projects that wish to implement an authentication mechanism
+  # based on generic user properties (email, password).
   abstract class User < BaseUser
     field :id, :big_int, primary_key: true, auto: true
     field :email, :email

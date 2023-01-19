@@ -1,6 +1,7 @@
 ENV["MARTEN_ENV"] = "test"
 
 require "spec"
+require "timecop"
 
 require "marten"
 require "marten/spec"

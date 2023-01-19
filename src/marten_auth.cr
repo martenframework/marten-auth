@@ -10,10 +10,10 @@ module MartenAuth
   # Tries to authenticate the user associated identified by `natural_key` and check that the given `password` is valid.
   #
   # This method verifies that the passed credentials (user `natural_key` and `password`) are valid and returns the
-  # corresponding user record if that's the case. Other the method returns `nil` if the credentials can't be verified
-  # because the user does not exist or because the password is invalid.
+  # corresponding user record if that's the case. Otherwise the method returns `nil` if the credentials can't be
+  # verified because the user does not exist or because the password is invalid.
   #
-  # It is important to realize that this method _only_ verify user credentials and does not sign users for a specific
+  # It is important to realize that this method _only_ verify user credentials and does not sign in users for a specific
   # request. Signing in users is handled by the `#sign_in` method.
   def self.authenticate(natural_key : String, password : String) : BaseUser?
     user = Marten.settings.auth.user_model.get_by_natural_key!(natural_key)
@@ -37,13 +37,13 @@ module MartenAuth
     request.session[USER_PK_SESSION_KEY]?
   end
 
-  # Signs in a user in the specified request.
+  # Signs in a user for the specified request.
   #
-  # This method ensures that the user ID is persisted in the request and the associated session, so that they does not
+  # This method ensures that the user ID is persisted in the request and the associated session, so that they do not
   # have to reauthenticate for every request.
   #
-  # This method is intended to be used for a user record that whose credentials were valided using the `#authenticate`
-  # method.
+  # It is important to understand that this method is intended to be used for a user record whose credentials were
+  # valided using the `#authenticate` method beforehand.
   def self.sign_in(request : Marten::HTTP::Request, user : BaseUser)
     session_auth_hash = user.session_auth_hash
 
@@ -77,7 +77,7 @@ module MartenAuth
 
     (
       Crypto::Subtle.constant_time_compare(decrypted[PASSWORD_RESET_TOKEN_USER_PK_KEY], user.pk.to_s) &&
-        Crypto::Subtle.constant_time_compare(decrypted[PASSWORD_RESET_TOKEN_PASSWORD_KEY], user.password)
+        Crypto::Subtle.constant_time_compare(decrypted[PASSWORD_RESET_TOKEN_PASSWORD_KEY], user.password!)
     )
   rescue JSON::ParseException | Marten::Core::Encryptor::InvalidValueError
     false
@@ -96,7 +96,7 @@ module MartenAuth
   private USER_HASH_SESSION_KEY             = "_auth_user_hash"
   private USER_PK_SESSION_KEY               = "_auth_user_pk"
 
-  private def password_reset_token_encryptor
+  private def self.password_reset_token_encryptor
     @@password_reset_token_encryptor ||= Marten::Core::Encryptor.new(
       key: "marten_auth/password_reset_token/" + Marten.settings.secret_key
     )
