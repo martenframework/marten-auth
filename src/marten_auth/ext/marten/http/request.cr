@@ -5,9 +5,14 @@ class Marten::HTTP::Request
   # Returns the current user ID associated with the considered request, or `nil` if there is no authenticated user.
   getter user_id
 
-  # Returns the user associated with the considered request, or `nil` if there is no authenticated user.
+  # Returns the user associated with the request, or `nil` if there is no authenticated user.
   def user : MartenAuth::BaseUser?
     user_id.nil? ? nil : (@user ||= fetch_user).as?(MartenAuth::BaseUser)
+  end
+
+  # Returns the user associated with the request, or raise `NilAssertionError` if there is no authenticated user.
+  def user! : MartenAuth::BaseUser
+    user.not_nil!
   end
 
   # Returns `true` if a user is authenticated for the request.

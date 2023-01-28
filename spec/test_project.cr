@@ -43,5 +43,15 @@ Marten.configure :test do |config|
     end
   end
 
+  config.middleware = [
+    Marten::Middleware::Session,
+    Marten::Middleware::Flash,
+    MartenAuth::Middleware,
+  ]
+
   config.auth.user_model = User
+end
+
+Marten.routes.draw do
+  path "/auth-respond", AuthRespondHandler, name: "auth_respond"
 end
