@@ -7,7 +7,7 @@
 
 ## About this shard
 
-Marten Auth provides low-level helpers in order to implement authentication features within a Marten project. The preferred way to use this shard is to generate projects with built-in authentication by leveraging the [`new`](https://martenframework.com/docs/development/reference/management-commands#new) management command. You can refer to the [Authentication section](https://martenframework.com/docs/next/authentication) of the Marten documentation to learn more about authentication.
+Marten Auth provides low-level helpers in order to implement authentication features within a Marten project. The preferred way to use this shard is to generate projects with built-in authentication by leveraging the [`new`](https://martenframework.com/docs/development/reference/management-commands#new) management command. You can refer to the [Authentication section](https://martenframework.com/docs/authentication) of the Marten documentation to learn more about authentication.
 
 ## Authors
 
