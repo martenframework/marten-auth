@@ -13,8 +13,8 @@ module MartenAuth
   # corresponding user record if that's the case. Otherwise the method returns `nil` if the credentials can't be
   # verified because the user does not exist or because the password is invalid.
   #
-  # It is important to realize that this method _only_ verify user credentials and does not sign in users for a specific
-  # request. Signing in users is handled by the `#sign_in` method.
+  # It is important to realize that this method _only_ verifies user credentials and does not sign in users for a
+  # specific request. Signing in users is handled by the `#sign_in` method.
   def self.authenticate(natural_key : String, password : String) : BaseUser?
     user = Marten.settings.auth.user_model.get_by_natural_key!(natural_key)
     return user if user.check_password(password)
@@ -39,11 +39,11 @@ module MartenAuth
 
   # Signs in a user for the specified request.
   #
-  # This method ensures that the user ID is persisted in the request and the associated session, so that they do not
-  # have to reauthenticate for every request.
+  # This method ensures that the user ID is persisted in the request and the associated session so that they do not have
+  # to reauthenticate for every request.
   #
   # It is important to understand that this method is intended to be used for a user record whose credentials were
-  # valided using the `#authenticate` method beforehand.
+  # validated using the `#authenticate` method beforehand.
   def self.sign_in(request : Marten::HTTP::Request, user : BaseUser)
     session_auth_hash = user.session_auth_hash
 
@@ -65,7 +65,7 @@ module MartenAuth
 
   # Signs out the current user.
   #
-  # Removes the authenticated user ID from the current request and flush the associated session data.
+  # Removes the authenticated user ID from the current request and flushes the associated session data.
   def self.sign_out(request : Marten::HTTP::Request) : Nil
     request.session.flush
     request.user = nil
