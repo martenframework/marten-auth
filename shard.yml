@@ -1,5 +1,5 @@
 name: marten_auth
-version: 0.1.0.dev0
+version: 0.1.0
 
 authors:
   - Morgan Aubert <me@morganaubert.name>
@@ -12,7 +12,7 @@ crystal: ">= 1.6.0"
 dependencies:
   marten:
     github: martenframework/marten
-    branch: main
+    version: ">= 0.2.0"
 
 development_dependencies:
   ameba:
