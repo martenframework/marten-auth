@@ -38,6 +38,12 @@ describe MartenAuth::User do
       user = create_user(email: "test@example.com", password: "insecure")
       user.check_password("otherpwd").should be_false
     end
+
+    it "returns false if the user has a badly encoded password" do
+      user = User.create!(email: "test@example.com", password: "notset")
+
+      user.check_password("notset").should be_false
+    end
   end
 
   describe "#set_password" do

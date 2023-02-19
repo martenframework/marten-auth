@@ -33,6 +33,8 @@ module MartenAuth
       return false if password.nil?
 
       Crypto::Bcrypt::Password.new(password!).verify(raw_password)
+    rescue Crypto::Bcrypt::Error
+      false
     end
 
     # Allows to set and encrypt a new user password.
