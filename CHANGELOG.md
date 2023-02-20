@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.1.1 (UNDER DEVELOPMENT)
+## 0.1.1 (2023-02-19)
 
 * Ensure `MartenAuth::User#check_password` returns `false` in case the password is not a correctly encoded value
 * Add a `MartenAuth::User#set_unusable_password` method for situations where it's necessary to assign a non-usable password to a user
