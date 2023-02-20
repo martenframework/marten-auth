@@ -42,6 +42,16 @@ module MartenAuth
       self.password = Crypto::Bcrypt::Password.create(raw_password).to_s
     end
 
+    # Allows to assign a non-usable password to the user.
+    #
+    # The assigned value is not a valid hash and will never be usable by the user.
+    def set_unusable_password : Nil
+      self.password = String.build do |s|
+        s << UNUSABLE_PASSWORD_PREFIX
+        s << Random::Secure.random_bytes((UNUSABLE_PASSWORD_SUFFIX_LENGTH / 2).to_i).hexstring
+      end
+    end
+
     # Returns the authentication hash (HMAC computed from the password) that should be embedded in sessions.
     def session_auth_hash : String
       key_salt = "MartenAuth::User#session_auth_hash"
@@ -51,5 +61,8 @@ module MartenAuth
 
       OpenSSL::HMAC.hexdigest(OpenSSL::Algorithm::SHA256, key, password!)
     end
+
+    private UNUSABLE_PASSWORD_PREFIX        = "!" # This ensures that the password will never be a valid encoded hash.
+    private UNUSABLE_PASSWORD_SUFFIX_LENGTH = 40
   end
 end

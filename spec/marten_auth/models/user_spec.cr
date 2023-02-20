@@ -61,6 +61,23 @@ describe MartenAuth::User do
     end
   end
 
+  describe "#set_unusable_password" do
+    it "assigns a unique and invalid hash to the user password field" do
+      user = User.new(email: "test@example.com", password: nil)
+
+      user.set_unusable_password
+
+      user.password!.size.should eq 41
+      user.password!.starts_with?('!').should be_true
+      user.check_password(user.password!).should be_false
+
+      old_unusable_password = user.password
+
+      user.set_unusable_password
+      user.password.should_not eq old_unusable_password
+    end
+  end
+
   describe "#session_auth_hash" do
     it "it returns the expected HMAC computed from the password" do
       user = create_user(email: "test@example.com", password: "insecure")
