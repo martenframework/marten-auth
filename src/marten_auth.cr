@@ -3,7 +3,7 @@ require "crypto/bcrypt/password"
 require "./marten_auth/app"
 
 module MartenAuth
-  VERSION = "0.1.1"
+  VERSION = "0.2.0"
 
   @@password_reset_token_encryptor : Marten::Core::Encryptor?
 
