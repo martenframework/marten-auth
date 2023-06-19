@@ -17,6 +17,7 @@ dependencies:
 development_dependencies:
   ameba:
     github: crystal-ameba/ameba
+    branch: master
   timecop:
     github: crystal-community/timecop.cr
 
