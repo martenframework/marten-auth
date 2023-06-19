@@ -15,7 +15,7 @@ module MartenAuth
   # based on generic user properties (email, password).
   abstract class User < BaseUser
     field :id, :big_int, primary_key: true, auto: true
-    field :email, :email
+    field :email, :email, unique: true
     field :password, :string, max_size: 128
     field :created_at, :date_time, auto_now_add: true
     field :updated_at, :date_time, auto_now: true
