@@ -71,6 +71,19 @@ module MartenAuth
     request.user = nil
   end
 
+  # Refreshes the session auth hash for the current session.
+  #
+  # Calling this method may be necessary after changing a user's password, otherwise this user would be logged out of
+  # all their sessions. This method ensures that the session auth hash of the user for the current session is refreshed
+  # so that this user does not end up being logged out.
+  def self.update_session_auth_hash(request : Marten::HTTP::Request, user : BaseUser) : Nil
+    request.session.cycle_key
+
+    if request.session[USER_HASH_SESSION_KEY]? && request.user == user
+      request.session[USER_HASH_SESSION_KEY] = user.session_auth_hash
+    end
+  end
+
   # Returns a boolean indicating if the passed password reset token is valid for the considered `user`.
   def self.valid_password_reset_token?(user : BaseUser, token : String) : Bool
     decrypted = Hash(String, String).from_json(password_reset_token_encryptor.decrypt!(token))
@@ -84,7 +97,7 @@ module MartenAuth
   end
 
   # Returns a boolean indicating if the authentication hash in the session corresponds to the passed `user`'s one.
-  def self.valid_session_hash?(request, user)
+  def self.valid_session_hash?(request : Marten::HTTP::Request, user : BaseUser)
     Crypto::Subtle.constant_time_compare(
       request.session[USER_HASH_SESSION_KEY]? || "",
       user.session_auth_hash

@@ -201,6 +201,27 @@ describe MartenAuth do
     end
   end
 
+  describe "::update_session_auth_hash" do
+    it "updates the user session auth hash as expected" do
+      user = create_user(email: "test@example.com", password: "insecure")
+
+      session_store = Marten::HTTP::Session::Store::Cookie.new("sessionkey")
+      session_store["_auth_user_hash"] = "oldvalue"
+
+      request = Marten::HTTP::Request.new(
+        method: "GET",
+        resource: "/test/xyz",
+        headers: HTTP::Headers{"Host" => "example.com"},
+      )
+      request.session = session_store
+      request.user = user
+
+      MartenAuth.update_session_auth_hash(request, user)
+
+      session_store["_auth_user_hash"].should eq user.session_auth_hash
+    end
+  end
+
   describe "::valid_password_reset_token?" do
     it "returns true for a valid password reset token" do
       user = create_user(email: "test@example.com", password: "insecure")
