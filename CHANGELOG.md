@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.3.0 (UNDER DEVELOPMENT)
+
+* Add a `MartenAuth#update_session_auth_hash` method to refresh the session auth hash after changing a user's password
+
 ## 0.2.0 (2023-06-18)
 
 * Ensure that the `email` field is marked as `unique: true` in the `User` abstract model
