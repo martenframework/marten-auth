@@ -1,8 +1,8 @@
 # Changelog
 
-## 0.3.0 (UNDER DEVELOPMENT)
+## 0.2.1 (2023-07-09)
 
-* Add a `MartenAuth#update_session_auth_hash` method to refresh the session auth hash after changing a user's password
+* Add missing `MartenAuth#update_session_auth_hash` method to refresh the session auth hash after changing a user's password
 
 ## 0.2.0 (2023-06-18)
 
