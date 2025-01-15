@@ -21,7 +21,7 @@ describe MartenAuth::Middleware do
       middleware = MartenAuth::Middleware.new
       middleware.call(
         request,
-        ->{ Marten::HTTP::Response.new("It works!", content_type: "text/plain", status: 200) }
+        -> { Marten::HTTP::Response.new("It works!", content_type: "text/plain", status: 200) }
       )
 
       request.user_id.should eq user.pk.to_s
@@ -50,7 +50,7 @@ describe MartenAuth::Middleware do
       middleware = MartenAuth::Middleware.new
       middleware.call(
         request,
-        ->{ Marten::HTTP::Response.new("It works!", content_type: "text/plain", status: 200) }
+        -> { Marten::HTTP::Response.new("It works!", content_type: "text/plain", status: 200) }
       )
 
       request.user.should be_nil
