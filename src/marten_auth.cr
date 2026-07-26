@@ -17,7 +17,7 @@ module MartenAuth
   # specific request. Signing in users is handled by the `#sign_in` method.
   def self.authenticate(natural_key : String, password : String) : BaseUser?
     user = Marten.settings.auth.user_model.get_by_natural_key!(natural_key)
-    return user if user.check_password(password)
+    user if user.check_password(password)
   rescue Marten::DB::Errors::RecordNotFound
   end
 
